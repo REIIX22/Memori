@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>A Letter For You</title>
+
+<style>
+body{
+  margin:0;
+  font-family:monospace;
+  background:#f5f5f5;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+#letterPaper{
+  background:white;
+  border:4px solid black;
+  width:600px;
+  max-width:90%;
+  padding:40px;
+  font-size:20px;
+  line-height:1.5;
+  border-radius:6px;
+  text-align:left;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+p{
+  margin:0 0 15px 0;
+}
+
+button{
+  align-self:flex-end;
+  margin-top:20px;
+  padding:8px 18px;
+  background:white;
+  border:2px solid black;
+  font-family:monospace;
+  cursor:pointer;
+}
+
+button:hover{
+  background:black;
+  color:white;
+}
+
+#muteBtn{
+  position:absolute;
+  top:10px;
+  right:10px;
+  padding:6px 10px;
+  font-size:16px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- looping background music -->
+<audio id="bgm" src="finalduet.mp3" autoplay loop></audio>
+
+<!-- mute/unmute button -->
+<button id="muteBtn" onclick="toggleBGM()">🔊</button>
+
+<div id="letterPaper">
+  <div id="letterText"></div>
+  <button id="nextBtn" onclick="nextPage()">Next ▶</button>
+</div>
+
+<script>
+let pages = [
+`Dear honey,
+
+Time really moving so fast when I'm with you. Sometimes it feels like we just started this journey together, but at the same time it also feels like you have been part of my life for so long. My life slowly see the light that you gave to me. Before you came into my life, some days felt heavy and dark, but you helped me see things differently. You helped me walk out from the darkness, little by little, just by being there with me.`,
+
+`You are my happiness. The reason that I still strong to be here. Even on days when things feel difficult, thinking about you gives me strength. Just knowing that you are in my life makes everything feel a little easier. And I want you in every part of my life, not only today, but in my future too.`,
+
+`I want to be someone you can depend on. Someone you can trust. Someone who will stay beside you through the good days and the hard days. I want to support you the way you supported me, and be the person you can always turn to whenever you need someone.`,
+
+`I really love and care about you so much more than anything in this world. Being with you means everything to me, and every moment we spend together becomes a memory I keep close to my heart. Even the small moments with you are special to me.`,
+
+`Let's create more happy memory together. More laughter, more late night talks, more moments where we can just enjoy being together. I want to continue this journey with you and see where life takes us.`,
+
+`I love you so much. Happy 1st anniversary my love <3
+
+From your knight`
+];
+
+let currentPage = 0;
+let letterText = document.getElementById("letterText");
+let nextBtn = document.getElementById("nextBtn");
+let i = 0;
+let typingSpeed = 25;
+let typingInterval;
+
+function typePage(text){
+  clearTimeout(typingInterval);
+  letterText.innerHTML = "";
+  i = 0;
+  function typing(){
+    if(i < text.length){
+      letterText.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
+      i++;
+      typingInterval = setTimeout(typing, typingSpeed);
+    }
+  }
+  typing();
+}
+
+// initialize first page
+typePage(pages[currentPage]);
+
+function nextPage(){
+  currentPage++;
+  if(currentPage < pages.length){
+    typePage(pages[currentPage]);
+    if(currentPage === pages.length-1){
+      nextBtn.innerText = "Finish :3";
+    }
+  } else {
+    letterText.innerHTML = "Thank you for talking your time reading this letter <3";
+    nextBtn.style.display = "none";
+  }
+}
+
+// toggle background music
+function toggleBGM(){
+  const bgm = document.getElementById("bgm");
+  if(bgm.paused){
+    bgm.play();
+  } else {
+    bgm.pause();
+  }
+}
+</script>
+
+</body>
+</html>

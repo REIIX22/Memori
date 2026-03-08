@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ハピネス</title>
+<style>
+body{
+  margin:0;
+  font-family: monospace; /* same as dialogue page */
+  background: #fefcfb; /* soft paper color */
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  padding:20px;
+  color:#333;
+}
+
+/* book page container */
+.book-page{
+  width:70%;
+  max-width:700px;
+  text-align:center;
+  font-size:24px;
+  line-height:2;
+  white-space: pre-wrap; /* preserve line breaks */
+  background:#fffef9;
+  padding:50px 30px;
+  border-radius:10px;
+  border:2px solid #ccc;
+}
+
+/* next button */
+button{
+  margin-top:40px;
+  background:white;
+  border:2px solid black;
+  padding:10px 20px;
+  cursor:pointer;
+  font-family: monospace; /* same font */
+  font-size:18px;
+}
+
+button:hover{
+  background:black;
+  color:white;
+}
+</style>
+</head>
+<body>
+
+<div class="book-page">
+  <p id="pageText"></p>
+  <button onclick="nextPage()">Next ▶</button>
+</div>
+
+<script>
+let pages = [
+  "A thousand little moments pass,\nYet every one feels meant to last...",
+"From random talks to midnight laughs,\nYou’re my favorite part of that...",
+"In every memory we make,\nMy heart finds joy for both our sake...",
+"My life feels brighter than I remember before..." , 
+"Just being with you is all I ever wanted now..."
+];
+
+let currentPage = 0;
+let charIndex = 0;
+let typingSpeed = 40;
+let typingInterval;
+
+function typePage(text){
+  clearTimeout(typingInterval);
+  let elem = document.getElementById("pageText");
+  elem.innerHTML = "";
+  charIndex = 0;
+
+  function typing(){
+    if(charIndex < text.length){
+      elem.innerHTML += text.charAt(charIndex);
+      charIndex++;
+      typingInterval = setTimeout(typing, typingSpeed);
+    }
+  }
+  typing();
+}
+
+// initialize first page
+typePage(pages[0]);
+
+function nextPage(){
+  currentPage++;
+  if(currentPage < pages.length){
+    typePage(pages[currentPage]);
+
+    // last page button text
+    if(currentPage === pages.length -1){
+      document.querySelector(".book-page button").innerText = "Continue";
+    }
+  } else {
+    // redirect after last page
+    window.location.href = "SecretSpace.html"; // replace with your next page
+  }
+
+}
+</script>
+
+</body>
+</html>
